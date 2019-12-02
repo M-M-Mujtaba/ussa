@@ -14,7 +14,7 @@ public class ClassRoom {
     ClassRoom(String name){
         this.name = name;
         Random rand = new Random();
-        val = rand.nextDouble(1.0E00);
+        val = rand.nextDouble(1.0);
 
     }
 
