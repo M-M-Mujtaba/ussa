@@ -40,11 +40,8 @@ public class Course {
     @Setter
     private char Sec;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "Course_Instructors",
-            joinColumns = @JoinColumn(name = "course_id"),
-            inverseJoinColumns = @JoinColumn(name = "instructor_id"))
-    private List<Instructor> Teachers = new ArrayList<>();
+    @OneToOne
+    private Instructor Teachers;
 
 
     @OneToMany(targetEntity = Course_Review.class)
@@ -61,7 +58,7 @@ public class Course {
 
     }
 
-    public Course(String name, String code, char s, List<Instructor> ins, List reviews) {
+    public Course(String name, String code, char s, Instructor ins, List reviews) {
         this.name = name;
         this.code = code;
         this.Sec = s;
@@ -89,9 +86,9 @@ public class Course {
 
     public void removeReview(Review r){this.getCourse_Review().remove(r);}
 
-    public void addInstructor(Instructor inst){this.Teachers.add(inst);}
+    //public void addInstructor(Instructor inst){this.Teachers.add(inst);}
 
-    public void removeInstructor(Instructor inst){this.Teachers.remove(inst);}
+    //public void removeInstructor(Instructor inst){this.Teachers.remove(inst);}
 
 
 }

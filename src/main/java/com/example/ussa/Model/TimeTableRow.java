@@ -7,7 +7,7 @@ import lombok.Data;
 public class TimeTableRow {
 
 
-    ArrayList<TimeTableSlot> row;
+    ArrayList<TimeTableSlot> row = new ArrayList<TimeTableSlot>();
 
     public void addTimeTableSlot(TimeTableSlot tts){
         row.add(tts);

@@ -1,6 +1,12 @@
+/*
 package com.example.ussa.Util;
 
 import com.opencsv.CSVReader;
+import com.example.ussa.Model.*;
+import com.example.ussa.repository.CourseRepository;
+import com.example.ussa.repository.InstructorRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+
 
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -10,7 +16,21 @@ import java.util.List;
 
 public class TimeTableReader {
 
+    @Autowired
+    CourseRepository courseRepository;
+
+    @Autowired
+    InstructorRepository instructorRepository;
+
+
+
     public void readCourseList() throws Exception {
+        TimeTable timeTable = TimeTable.getInstance();
+        ArrayList<Course> courseList = new ArrayList<>();
+        ArrayList<Instructor> instructorList = new ArrayList<>();
+
+
+
         CSVReader reader1 = new CSVReader(new FileReader("TimeTable1.csv"));
         CSVReader reader2 = new CSVReader(new FileReader("TimeTable2.csv"));
 
@@ -29,7 +49,9 @@ public class TimeTableReader {
                 //check if batch title instead of course
                 if (!nextLine[0].isEmpty()){
                     //save to courseList
-                    addCourseList(new Course( nextLine[0], nextLine[1], nextLine[2], Integer.parseInt(nextLine[3]), nextLine[4], nextLine[5], Integer.parseInt(nextLine[6]), nextLine[7]));
+                    Instructor inst1 = new Instructor(nextLine[2]);
+                    instructorList.add(inst1);
+                    courseList.add(new Course( nextLine[1], nextLine[0],' ', inst1,null));
                 }
             }
         }
@@ -150,3 +172,4 @@ public class TimeTableReader {
 
 
 }
+*/

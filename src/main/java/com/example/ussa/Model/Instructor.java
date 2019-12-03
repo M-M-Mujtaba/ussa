@@ -30,7 +30,7 @@ public class Instructor {
     @Setter
     private String name;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "Course_Instructors",
             joinColumns = @JoinColumn(name = "instructor_id"),
             inverseJoinColumns = @JoinColumn(name = "course_id"))

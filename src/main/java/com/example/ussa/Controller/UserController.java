@@ -72,9 +72,10 @@ public class UserController {
     }
 
     @GetMapping("/users/{username}/courses")
-    public List<Course> getPollsCreatedBy(@PathVariable(value = "username") String username) {
+    public List<Course> getCourses(@PathVariable(value = "username") String username) {
             // Let people login with either username or email
-            User user = userRepository.findByUsernameOrEmail(username, username).orElseThrow(() -> new UsernameNotFoundException("User not found " + username));
+        System.out.println("Test");
+            User user = userRepository.findByUsernameOrEmail(username, username).orElseThrow(() -> new UsernameNotFoundException("User not found teststtt" + username));
 
 
 
