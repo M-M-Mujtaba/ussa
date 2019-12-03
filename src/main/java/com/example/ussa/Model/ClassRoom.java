@@ -11,7 +11,7 @@ public class ClassRoom {
     private String name;
     private float val ;
 
-    ClassRoom(String name){
+    public ClassRoom(String name){
         this.name = name;
         Random rand = new Random();
         val = rand.nextFloat();

@@ -13,7 +13,11 @@ import java.util.List;
 import java.util.List;
 
 @Entity
-@Table(name = "Courses")
+@Table(name = "Courses", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {
+                "code"
+        })
+})
 public class Course {
     @Id
     @Getter
@@ -90,5 +94,15 @@ public class Course {
 
     //public void removeInstructor(Instructor inst){this.Teachers.remove(inst);}
 
+    @Override
+    public boolean equals(Object obj){
+        Subject sub = (Subject) obj;
+        if (this.code.equals(sub.code)){
+            return true;
+        }
+        else return false ;
+
+
+    }
 
 }

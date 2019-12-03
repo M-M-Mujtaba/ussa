@@ -1,4 +1,3 @@
-/*
 package com.example.ussa.Util;
 
 import com.opencsv.CSVReader;
@@ -10,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 
@@ -31,8 +31,8 @@ public class TimeTableReader {
 
 
 
-        CSVReader reader1 = new CSVReader(new FileReader("TimeTable1.csv"));
-        CSVReader reader2 = new CSVReader(new FileReader("TimeTable2.csv"));
+        CSVReader reader1 = new CSVReader(new FileReader("C:\\Users\\mujta\\IdeaProjects\\ussa\\src\\main\\resources\\TimeTable1.csv"));
+        CSVReader reader2 = new CSVReader(new FileReader("C:\\Users\\mujta\\IdeaProjects\\ussa\\src\\main\\resources\\TimeTable2.csv"));
 
         //Read CSV line by line and use the string array as you want
         String[] nextLine;
@@ -52,15 +52,15 @@ public class TimeTableReader {
                     Instructor inst1 = new Instructor(nextLine[2]);
                     instructorList.add(inst1);
                     courseList.add(new Course( nextLine[1], nextLine[0],' ', inst1,null));
+                    Course c1 =  new Course( nextLine[1], nextLine[0],' ', inst1,null);
+                    //courseRepository.save(c1);
                 }
             }
         }
 
-        int classroom = 0;
         int day = 0;
+        int slot;
         String search;
-        int slots;
-
         //read time table
         while ((nextLine = reader2.readNext()) != null) {
 
@@ -82,94 +82,65 @@ public class TimeTableReader {
                     else if (nextLine[0].contains("Friday")){
                         day = 4;
                     }
-                    //day change, reset class
-                    classroom = 0;
-                }
-                if (day == 0){
-                    classRooms.add(nextLine[1]);
                 }
                 for (int j = 2; j < 77; j++ ){
                     if (!nextLine[j].isEmpty()){
-
+                        slot = getTimeSlotIndex(j);
                         search = nextLine[j];
                         search = search.replaceAll("\\(.*\\)", "");
                         search = search.trim();
+                        //find course
+                        Course course = searchCourse(courseList, search);
 
-                        slots = getCourseSlots(search);
-
-                        for (int k = 0; k < slots; k++){
-                            setSlot(day, classroom, j-2+k, nextLine[j]);
-                        }
+                        timeTable.setTimeTableSlot(Day.values()[day],TimeSlot.values()[slot],new TimeTableSlot(course,new ClassRoom(nextLine[1])));
                     }
-
                 }
-                classroom++;
             }
         }
     }
+    private int getTimeSlotIndex(int index){
+        int ret = 0;
 
-    public int getCourseSlots(String courseTitle){
+        if (index == 3 || index == 6){
+            ret = 0;
+        }
+        else if (index == 15){
+            ret = 1;
+        }
+        else if (index == 24){
+            ret = 2;
+        }
+        else if (index == 33){
+            ret = 3;
+        }
+        else if (index == 42){
+            ret = 4;
+        }
+        else if (index == 51){
+            ret = 5;
+        }
+
+        return ret;
+    }
+    private Course searchCourse(ArrayList<Course> courseList, String courseTitle){
+        Course course = null;
+
         int slots = 0;
         boolean lab = false;
         if (courseTitle.contains("Lab")) lab = true;
-
         for (Course c : courseList){
             if (lab){
-                if (c.title.contains(courseTitle) && c.title.contains("Lab")){
-                    slots = c.slots;
+                if (c.getName().contains(courseTitle) && c.getName().contains("Lab")){
+                    course = c;
                 }
             }
             else{
-                if (c.title.contains(courseTitle) && !c.title.contains("Lab")){
-                    slots = c.slots;
+                if (c.getName().contains(courseTitle) && !c.getName().contains("Lab")){
+                    course = c;
                 }
             }
         }
-        return slots;
+        return course;
     }
-
-    public int getDayIndex(String day){
-        int ret = -1;
-        if (day.equalsIgnoreCase("Monday")){
-            ret = 0;
-        }
-        else if (day.equalsIgnoreCase("Tuesday")){
-            ret = 1;
-        }
-        else if (day.equalsIgnoreCase("Wednesday")){
-            ret = 2;
-        }
-        else if (day.equalsIgnoreCase("Thursday")){
-            ret = 3;
-        }
-        else if (day.equalsIgnoreCase("Friday")){
-            ret = 4;
-        }
-        return ret;
-    }
-
-    public int getClassroomIndex(String classroom){
-        int ret = -1;
-        for (int i = 0; i < 31; i++){
-            if (classRooms.get(i).equalsIgnoreCase(classroom)){
-                ret = i;
-            }
-        }
-        return ret;
-    }
-
-    public int getTimeSlotIndex(int hour24, int min60){
-        int ret;
-        hour24 = hour24 - 7;
-        min60 = min60 - 20;
-        min60 += hour24*60;
-        int mod = min60%10;
-        ret = min60/10 - 1;
-        if (mod > 0) ret++;
-        return ret;
-    }
-
-
 
 }
-*/

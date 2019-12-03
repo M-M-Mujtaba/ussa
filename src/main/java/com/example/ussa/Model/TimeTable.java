@@ -1,11 +1,15 @@
 package com.example.ussa.Model;
 import lombok.Setter;
 import lombok.Getter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class TimeTable {
+
+        private static final Logger logger = LoggerFactory.getLogger(TimeTable.class);
 
     //singleton class
 
@@ -16,7 +20,9 @@ public class TimeTable {
 
 
         private TimeTable(){
-
+                for (int i = 0; i <30 ; i++) {
+                        timeRows.add(new TimeTableRow());
+                }
         }
 
         public static TimeTable getInstance() {
@@ -28,7 +34,8 @@ public class TimeTable {
         }
 
         public TimeTableRow getRow(Day day, TimeSlot timeSlot){
-                int index = day.ordinal() * timeSlot.ordinal();
+                int index = (day.ordinal() * 6 )+  timeSlot.ordinal();
+                System.out.println(" " + index + " " + day.ordinal() + " " +  timeSlot.ordinal());
                 return timeRows.get(index);
         }
 

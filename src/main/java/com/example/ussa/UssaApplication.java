@@ -3,6 +3,7 @@ package com.example.ussa;
 import com.example.ussa.Model.Course;
 import com.example.ussa.Model.Instructor;
 import com.example.ussa.Model.User;
+import com.example.ussa.Util.TimeTableReader;
 import com.example.ussa.repository.CourseRepository;
 import com.example.ussa.repository.InstructorRepository;
 import com.example.ussa.repository.UserRepository;
@@ -31,11 +32,12 @@ public class UssaApplication {
     }
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 
         SpringApplication.run(UssaApplication.class, args);
 
-
+        TimeTableReader start = new TimeTableReader();
+        start.readCourseList();
 
 
 

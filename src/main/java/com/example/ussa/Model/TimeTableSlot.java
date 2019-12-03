@@ -9,7 +9,7 @@ public class TimeTableSlot {
     public Course course;
     public ClassRoom classRoom;
 
-    TimeTableSlot(Course course, ClassRoom classRoom){this.classRoom = classRoom; this.course = course;}
+    public TimeTableSlot(Course course, ClassRoom classRoom){this.classRoom = classRoom; this.course = course;}
 
 
 }

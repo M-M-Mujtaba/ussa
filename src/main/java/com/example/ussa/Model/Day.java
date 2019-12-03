@@ -1,9 +1,9 @@
 package com.example.ussa.Model;
 
 public enum Day {
-     Monday,
-    Tuesday,
-    Wednesday,
-    Thursday,
-    Friday
+    MONDAY,
+    TUESDAY,
+    WEDNESDAY,
+    THURSDAY,
+    FRIDAY
 }
