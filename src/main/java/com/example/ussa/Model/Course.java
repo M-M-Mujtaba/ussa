@@ -62,7 +62,8 @@ public class Course {
 
     }
 
-    public Course(String name, String code, char s, Instructor ins, List reviews) {
+    public Course(Long id, String name, String code, char s, Instructor ins, List reviews) {
+        this.id = id;
         this.name = name;
         this.code = code;
         this.Sec = s;

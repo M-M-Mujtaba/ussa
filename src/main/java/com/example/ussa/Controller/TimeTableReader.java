@@ -1,10 +1,15 @@
-package com.example.ussa.Util;
+package com.example.ussa.Controller;
 
 import com.opencsv.CSVReader;
 import com.example.ussa.Model.*;
 import com.example.ussa.repository.CourseRepository;
 import com.example.ussa.repository.InstructorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 
 import java.io.FileReader;
@@ -12,8 +17,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-
-
+@Controller
+@RequestMapping("/api/timetableReader")
 public class TimeTableReader {
 
     @Autowired
@@ -23,7 +28,7 @@ public class TimeTableReader {
     InstructorRepository instructorRepository;
 
 
-
+    @PostMapping("/readCourseList")
     public void readCourseList() throws Exception {
         TimeTable timeTable = TimeTable.getInstance();
         ArrayList<Course> courseList = new ArrayList<>();
@@ -37,7 +42,7 @@ public class TimeTableReader {
         //Read CSV line by line and use the string array as you want
         String[] nextLine;
         int i = 2;
-
+        Long id = 0l;
         //read course info
         while ((nextLine = reader1.readNext()) != null) {
             //skip 2 lines
@@ -51,9 +56,13 @@ public class TimeTableReader {
                     //save to courseList
                     Instructor inst1 = new Instructor(nextLine[2]);
                     instructorList.add(inst1);
-                    courseList.add(new Course( nextLine[1], nextLine[0],' ', inst1,null));
-                    Course c1 =  new Course( nextLine[1], nextLine[0],' ', inst1,null);
-                    //courseRepository.save(c1);
+
+                    Course c1 =  new Course(id++, nextLine[1], nextLine[0],' ', inst1,null);
+                    courseRepository.save(c1);
+
+                    courseList.add(c1);
+
+
                 }
             }
         }
@@ -83,16 +92,18 @@ public class TimeTableReader {
                         day = 4;
                     }
                 }
-                for (int j = 2; j < 77; j++ ){
+                for (int j = 2; j < 52; j++ ){
                     if (!nextLine[j].isEmpty()){
                         slot = getTimeSlotIndex(j);
-                        search = nextLine[j];
-                        search = search.replaceAll("\\(.*\\)", "");
-                        search = search.trim();
-                        //find course
-                        Course course = searchCourse(courseList, search);
+                        if (slot != -1){
+                            search = nextLine[j];
+                            search = search.replaceAll("\\(.*\\)", "");
+                            search = search.trim();
+                            //find course
+                            Course course = searchCourse(courseList, search);
 
-                        timeTable.setTimeTableSlot(Day.values()[day],TimeSlot.values()[slot],new TimeTableSlot(course,new ClassRoom(nextLine[1])));
+                            timeTable.setTimeTableSlot(Day.values()[day],TimeSlot.values()[slot],new TimeTableSlot(course,new ClassRoom(nextLine[1])));
+                        }
                     }
                 }
             }

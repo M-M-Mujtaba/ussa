@@ -1,18 +1,10 @@
 package com.example.ussa;
 
-import com.example.ussa.Model.Course;
-import com.example.ussa.Model.Instructor;
-import com.example.ussa.Model.User;
-import com.example.ussa.Util.TimeTableReader;
-import com.example.ussa.repository.CourseRepository;
-import com.example.ussa.repository.InstructorRepository;
-import com.example.ussa.repository.UserRepository;
+import com.example.ussa.Controller.TimeTableReader;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.CommandLineRunner;
 
 import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 import javax.annotation.PostConstruct;
 import java.util.*;
@@ -36,8 +28,8 @@ public class UssaApplication {
 
         SpringApplication.run(UssaApplication.class, args);
 
-        TimeTableReader start = new TimeTableReader();
-        start.readCourseList();
+       // TimeTableReader start = new TimeTableReader();
+        //start.readCourseList();
 
 
 

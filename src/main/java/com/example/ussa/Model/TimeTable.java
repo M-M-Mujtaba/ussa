@@ -18,12 +18,34 @@ public class TimeTable {
         @Setter
         ArrayList<TimeTableRow> timeRows = new ArrayList<>();
 
+        public List<ClassRoom> classRooms = new ArrayList<>();
 
         private TimeTable(){
-                for (int i = 0; i <30 ; i++) {
-                        timeRows.add(new TimeTableRow());
+                String n;
+                classRooms.add(new ClassRoom("Seminar Hall"));
+                for (int i = 1; i < 16 ; i++) {
+                        n = "CS-" + (i+1);
+                        classRooms.add(new ClassRoom(n));
                 }
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         public static TimeTable getInstance() {
                 return instance;

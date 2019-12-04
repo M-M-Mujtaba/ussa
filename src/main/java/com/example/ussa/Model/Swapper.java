@@ -6,6 +6,7 @@ import lombok.Setter;
 import net.bytebuddy.asm.Advice;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "Swapper")
@@ -16,13 +17,13 @@ public class Swapper {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
+    @ManyToOne
     User Swapper;
 
-    @OneToOne
+    @ManyToOne
     Course currentCourse;
 
-    @OneToOne
+    @ManyToOne
     Course requiredCourse;
 
     public Course getRequiredCourse() {
@@ -55,5 +56,17 @@ public class Swapper {
         this.requiredCourse=req;
         this.currentCourse=cur;
         this.Swapper=_user;
+    }
+
+    User swap(User _swapper){
+        List<Course> courses= this.Swapper.getCourses();
+        courses.remove(currentCourse);
+        courses.add(requiredCourse);
+        this.Swapper.setCourses(courses);
+        courses= _swapper.getCourses();
+        courses.remove(requiredCourse);
+        courses.add(currentCourse);
+        _swapper.setCourses(courses);
+        return _swapper;
     }
 }
